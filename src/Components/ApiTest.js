@@ -10,6 +10,8 @@ function ApiTest() {
   const [SYMBOL, setSymbol] = useState("");
   const [Input, setInput] = useState("");
   const [TIME_INTERVAL, setTimeInterval] = useState("ONE_MINUTE");
+  const [From_date, setFrom_date] = useState("2021-12-21 09:00");
+  const [To_Date, setTo_date] = useState("2021-12-21 15:30");
   const APICALLER = async () => {
     // setSymbol("");
     // setInput("");
@@ -20,14 +22,14 @@ function ApiTest() {
       // refresh_token: "YOUR_REFRESH_TOKEN"
     });
 
-    await smart_api.generateSession("K258074", "Karan11@2000").then((data) => {
+    await smart_api.generateSession("ANGEL_ID", "ANGEL_PASS").then((data) => {
       return smart_api
         .getCandleData({
           exchange: "NSE",
           symboltoken: `${SYMBOL}`,
           interval: `${TIME_INTERVAL}`,
-          fromdate: "2021-12-21 09:00",
-          todate: "2021-12-21 15:30",
+          fromdate: `${From_date}`,
+          todate: `${To_Date}`,
         })
         .then((data) => {
           // Profile details
@@ -99,6 +101,14 @@ function ApiTest() {
     setTimeInterval(b);
   };
 
+  const DateChanger = (e) => {
+    e.preventDefault();
+    setFrom_date(e.target.value);
+  };
+  const DateChanger2 = (e) => {
+    e.preventDefault();
+    setTo_date(e.target.value);
+  };
   // useEffect(() => {
   //   APICALLER();
   // }, [SYMBOL]);
@@ -123,6 +133,20 @@ function ApiTest() {
           placeholder="Time Interval"
           value={TIME_INTERVAL}
           onChange={(e) => ChangerTime(e)}
+        />
+        <input
+          className="form-control"
+          style={{ width: "400px", margin: "10px" }}
+          placeholder="From Date"
+          value={From_date}
+          onChange={(e) => DateChanger(e)}
+        />
+        <input
+          className="form-control"
+          style={{ width: "400px", margin: "10px" }}
+          placeholder="To Date"
+          value={To_Date}
+          onChange={(e) => DateChanger2(e)}
         />
         <button
           className="btn btn-primary"
